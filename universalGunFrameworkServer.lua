@@ -93,4 +93,3 @@ function giveGun(player, gunName, handleName, armTemplateName, customArmColor)
 end
 
 task.wait(10)
-giveGun("foxwire121", "Gun", "gripHandle", "armTemplate", Color3.fromRGB(106, 0, 159))
