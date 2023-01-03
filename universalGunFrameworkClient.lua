@@ -35,14 +35,18 @@ end)
 game:GetService("RunService").RenderStepped:Connect(function()
 	if gunLoaded() then
 		local root = game.Players.LocalPlayer.Character["UpperTorso"]
-		local direction = (game.Workspace.CurrentCamera.CFrame.p - root.CFrame.Position).unit
-		root["Waist"].C0 = CFrame.new(root["Waist"].C0.Position, game.Workspace.CurrentCamera.CFrame.LookVector * -100)
+		--root["Waist"].C0 = CFrame.new(root["Waist"].C0.Position, game.Workspace.lookat.CFrame.Position)
+		--workspace.lookat2.CFrame = CFrame.lookAt(workspace.lookat2.CFrame.Position, workspace.lookat.CFrame.Position)
 		
 		local leftArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateLeft"]
 		local rightArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateRight"]	
 		local body = game.Workspace.template[game.Players.LocalPlayer.Name]["bodyTemplate"]
 		
-		body["ManualWeld"].Part1 = root
+		--leftArm["ManualWeld"].Part1 = root
+		--rightArm["ManualWeld"].Part1 = root
+		
+		body.CFrame = CFrame.lookAt(body.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10)
+		
 		leftArm["ManualWeld"].Part1 = body
 		rightArm["ManualWeld"].Part1 = body
 	end
