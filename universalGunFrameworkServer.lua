@@ -1,4 +1,4 @@
-function giveGun(player, gunName, handleName, customArmColor)
+function giveGun(player, gunName, handleName, templateName, customArmColor)
 	local templateFolder = Instance.new("Folder", workspace.template)
 	templateFolder.Name = player
 	
@@ -36,14 +36,17 @@ function giveGun(player, gunName, handleName, customArmColor)
 			templateFound = templateFound + 1
 			armLeft = v:Clone()
 			armLeft.Anchored = false
+			armLeft.CanCollide = false
 		elseif v.Name == "armTemplateRight" then
 			templateFound = templateFound + 1
 			armRight = v:Clone()
 			armRight.Anchored = false
+			armRight.CanCollide = false	
 		elseif v.Name == "bodyTemplate" then
 			templateFound = templateFound + 1
 			body = v:Clone()
 			body.Anchored = false
+			body.CanCollide = false
 		end
 	end
 	
@@ -68,6 +71,7 @@ function giveGun(player, gunName, handleName, customArmColor)
 	armLeft["ManualWeld"].Part1 = body
 	
 	local weldBody = Instance.new("Weld", body)
+	weldBody.Name = "ManualWeld"
 	weldBody.Part0 = body
 	weldBody.Part1 = Player.Character["HumanoidRootPart"]
 	
@@ -78,15 +82,6 @@ function giveGun(player, gunName, handleName, customArmColor)
 		weld.C1 = CFrame.new(workspace.template[player]["armTemplateRight"].CFrame.LookVector * -1) * CFrame.Angles(math.rad(-90),0,0)
 	end)
 	
-	for i,v in pairs(gun:GetDescendants()) do
-		if v:IsA("Part") or v:IsA("BasePart") then
-			v.CanCollide = false
-		end
-		if v.Name == handleName then
-			grip = v
-		end
-	end
-	
 	if err then
 		warn("Gun Framework - Custom arms did not load correctly or the gun is not equipped.")
 		warn(err)
@@ -94,4 +89,4 @@ function giveGun(player, gunName, handleName, customArmColor)
 end
 
 task.wait(10)
-giveGun("foxwire121", "Gun", "gripHandle")
+giveGun("foxwire121", "Gun", "gripHandle", "Template")

@@ -34,7 +34,7 @@ end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	if gunLoaded() then
-		local root = game.Players.LocalPlayer.Character["UpperTorso"]
+		local root = game.Players.LocalPlayer.Character["HumanoidRootPart"]
 		--root["Waist"].C0 = CFrame.new(root["Waist"].C0.Position, game.Workspace.lookat.CFrame.Position)
 		--workspace.lookat2.CFrame = CFrame.lookAt(workspace.lookat2.CFrame.Position, workspace.lookat.CFrame.Position)
 		
@@ -45,7 +45,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		--leftArm["ManualWeld"].Part1 = root
 		--rightArm["ManualWeld"].Part1 = root
 		
-		body.CFrame = CFrame.lookAt(body.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10)
+		body.CFrame = CFrame.new(root.CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position)
 		
 		leftArm["ManualWeld"].Part1 = body
 		rightArm["ManualWeld"].Part1 = body
