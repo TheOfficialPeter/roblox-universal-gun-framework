@@ -26,8 +26,19 @@ end
 UIS.InputBegan:Connect(function(input, _process)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
 		if gunLoaded() then
-			local enemy = mouse.Target
-			
+			local raycastParams = RaycastParams.new()
+			raycastParams.FilterDescendantsInstances = {game.Players.LocalPlayer.Character}
+			raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+			raycastParams.IgnoreWater = true
+
+			local rayResult = workspace:Raycast(game.Workspace.template[game.Players.LocalPlayer.Name]["Gun"]["gripHandle"].CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position, raycastParams)
+			local hit = rayResult.Instance
+
+			if game.Players[hit.Parent.Name] then
+				local enemy = game.Players[hit.Parent.Name]
+			elseif game.Players[hit.Parent.Parent.Name] then
+				local enemy = game.Players[hit.Parent.Parent.Name]
+			end
 		end
 	end
 end)
