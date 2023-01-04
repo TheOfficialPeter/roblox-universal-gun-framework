@@ -48,16 +48,16 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		local root = game.Players.LocalPlayer.Character["HumanoidRootPart"]
 		--root["Waist"].C0 = CFrame.new(root["Waist"].C0.Position, game.Workspace.lookat.CFrame.Position)
 		--workspace.lookat2.CFrame = CFrame.lookAt(workspace.lookat2.CFrame.Position, workspace.lookat.CFrame.Position)
-		
+
 		local leftArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateLeft"]
 		local rightArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateRight"]	
 		local body = game.Workspace.template[game.Players.LocalPlayer.Name]["bodyTemplate"]
-		
+
 		--leftArm["ManualWeld"].Part1 = root
 		--rightArm["ManualWeld"].Part1 = root
-		
+
 		body.CFrame = CFrame.new(root.CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position)
-		
+
 		leftArm["ManualWeld"].Part1 = body
 		rightArm["ManualWeld"].Part1 = body
 	end
