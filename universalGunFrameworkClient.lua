@@ -87,7 +87,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		--local camX, camY, camZ = workspace.CurrentCamera.CFrame:ToEulerAnglesXYZ()
 		
 		-- THIS IS NOT WORKING
-		body["ManualWeld"].C0 = CFrame.new(body["ManualWeld"].C0.Position, workspace.lookat.CFrame.Position)
+		local goalCF = CFrame.new(body["ManualWeld"].C0.Position, mouse.Hit.Position)
+		body["ManualWeld"].C0 = goalCF:ToObjectSpace()
 		
 		--local pitch = math.atan2(game.Players.LocalPlayer:GetMouse().Hit.lookVector.y, game.Players.LocalPlayer:GetMouse().Hit.lookVector.z)
 		--local yaw = math.atan2(game.Players.LocalPlayer:GetMouse().Hit.LookVector.x, game.Players.LocalPlayer:GetMouse().Hit.lookVector.z)

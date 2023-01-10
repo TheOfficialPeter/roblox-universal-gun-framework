@@ -1,13 +1,3 @@
-function createServerChecks() 
-	local http = game:GetService("HttpService")
-	local gunRemote = Instance.new("RemoteEvent", game.ReplicatedStorage)
-	gunRemote.Name = "Hi there!"
-	
-	gunRemote.OnServerEvent:Connect(function(player, shoots)
-		-- check for sus activity in raycasts
-	end)
-end
-
 function giveGun(player, gunName, handleName, templateName, customArmColor)
 	local templateFolder = Instance.new("Folder", workspace.template)
 	templateFolder.Name = player
