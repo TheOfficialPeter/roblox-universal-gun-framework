@@ -1,9 +1,15 @@
+local shoots = {}
+
 function shoot()
-	
+	local shootRemote = game.ReplicatedStorage:FindFirstChild("shoot")
+
+	shootRemote:FireServer(shoots)
 end
 
 function reload()
-	
+	local reloadRemote = game.ReplicatedStorage:FindFirstChild("reload")
+
+	reloadRemote:FireServer(shoots)
 end
 
 local mouse = game.Players.LocalPlayer:GetMouse()
@@ -22,8 +28,6 @@ local gunLoaded = function()
 		return false
 	end
 end
-
-local shoots = {}
 
 UIS.InputBegan:Connect(function(input, _process)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -67,14 +71,6 @@ UIS.InputBegan:Connect(function(input, _process)
 		end
 	end
 end)
-
-function sendMessage()
-	local remote = game.ReplicatedStorage.ChildAdded:Connect(function(child)
-		if child:IsA("RemoteEvent") and child.Name == "Hi there!" then
-			child:FireServer(shoots)
-		end
-	end)
-end
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	if gunLoaded() then
