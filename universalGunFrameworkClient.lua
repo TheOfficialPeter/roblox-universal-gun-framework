@@ -31,7 +31,7 @@ local UIS = game:GetService("UserInputService")
 
 UIS.InputBegan:Connect(function(input, _process)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		if playerFolder ~= nil then -- change this to check if the gun exists
+		if #playerFolder:GetChildren() > 0 then
 			local visualRay = Instance.new("Part", workspace)
 			visualRay.Name = "visualRay"
 			local distance = (game.Workspace.template[game.Players.LocalPlayer.Name]["Gun"]["gripHandle"].CFrame.Position - game.Players.LocalPlayer:GetMouse().Hit.Position).Magnitude
@@ -43,13 +43,13 @@ UIS.InputBegan:Connect(function(input, _process)
 			visualRay.CFrame = CFrame.new(game.Workspace.template[game.Players.LocalPlayer.Name]["Gun"]["gripHandle"].CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position)
 			visualRay.CFrame = visualRay.CFrame + visualRay.CFrame.LookVector * distance/2
 			
-			spawn(function()
-				task.wait(3)
+			task.spawn(function()
+				task.wait(1)
 				visualRay:Destroy()
 			end)
 			
 			local raycastParams = RaycastParams.new()
-			raycastParams.FilterDescendantsInstances = {visualRay, game.Players.LocalPlayer.Character, game.Workspace.template[game.Players.LocalPlayer.Name]}
+			raycastParams.FilterDescendantsInstances = {visualRay, game.Players.LocalPlayer.Character, playerFolder[game.Players.LocalPlayer.Name]}
 			raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
 			raycastParams.IgnoreWater = true
 			
@@ -70,7 +70,7 @@ UIS.InputBegan:Connect(function(input, _process)
 end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
-	if gunLoaded() then
+	if #playerFolder:GetChildren() > 0 then
 		-- change arms positions
 	end
 end)
