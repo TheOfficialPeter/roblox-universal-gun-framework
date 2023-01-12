@@ -1,4 +1,18 @@
-local shoots = {}
+local char = game.Players.LocalPlayer.Character
+local gunFolderName = "" -- change this to the gunFolder's name
+local gunFolder = nil
+local playerFolder = nil
+local shoots = {} -- all the times you started shooting
+
+-- Load folders
+for i,v in pairs(workspace:GetDescendants()) do
+	if v.Name == gunFolderName then
+		gunFolder = v
+		playerFolder = gunFolder[char.Name]
+	end
+end
+
+if gunFolder == nil or playerFolder == nil then print("Gun Framework (Client) - Could not find the gun folder with name " + gunFolderName + " or player folder is missing") end
 
 function shoot()
 	local shootRemote = game.ReplicatedStorage:FindFirstChild("shoot")
@@ -14,24 +28,10 @@ end
 
 local mouse = game.Players.LocalPlayer:GetMouse()
 local UIS = game:GetService("UserInputService")
-local gunName = "Gun"
-local bodyTemplate = "bodyTemplate"
-
-local gunLoaded = function()
-	if game.Workspace.template:FindFirstChild(game.Players.LocalPlayer.Name) then
-		if game.Workspace.template:FindFirstChild(game.Players.LocalPlayer.Name):FindFirstChild(gunName) then
-			return true
-		else
-			return false
-		end
-	else
-		return false
-	end
-end
 
 UIS.InputBegan:Connect(function(input, _process)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		if gunLoaded() then
+		if playerFolder ~= nil then -- change this to check if the gun exists
 			local visualRay = Instance.new("Part", workspace)
 			visualRay.Name = "visualRay"
 			local distance = (game.Workspace.template[game.Players.LocalPlayer.Name]["Gun"]["gripHandle"].CFrame.Position - game.Players.LocalPlayer:GetMouse().Hit.Position).Magnitude
@@ -57,10 +57,7 @@ UIS.InputBegan:Connect(function(input, _process)
 			local rayResult = workspace:Raycast(game.Workspace.template[game.Players.LocalPlayer.Name]["Gun"]["gripHandle"].CFrame.Position, direction, raycastParams)
 			local hit = rayResult.Instance
 			
-			if hit then
-				print(hit.Name)
-			end
-
+			-- you can also change this to a custom players folder if you are using custom characters
 			if game.Players[hit.Parent.Name] then
 				local enemy = game.Players[hit.Parent.Name]
 			elseif game.Players[hit.Parent.Parent.Name] then
@@ -74,29 +71,6 @@ end)
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	if gunLoaded() then
-		--local root = game.Players.LocalPlayer.Character["HumanoidRootPart"]
-		--root["Waist"].C0 = CFrame.new(root["Waist"].C0.Position, game.Workspace.lookat.CFrame.Position)
-		--workspace.lookat2.CFrame = CFrame.lookAt(workspace.lookat2.CFrame.Position, workspace.lookat.CFrame.Position)
-		
-		local leftArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateLeft"]
-		local rightArm = game.Workspace.template[game.Players.LocalPlayer.Name]["armTemplateRight"]	
-		local body = game.Workspace.template[game.Players.LocalPlayer.Name]["bodyTemplate"]
-		
-		--leftArm["ManualWeld"].Part1 = root
-		--rightArm["ManualWeld"].Part1 = root
-		--local camX, camY, camZ = workspace.CurrentCamera.CFrame:ToEulerAnglesXYZ()
-		
-		-- THIS IS NOT WORKING
-		local goalCF = CFrame.new(body["ManualWeld"].C0.Position, mouse.Hit.Position)
-		body["ManualWeld"].C0 = goalCF:ToObjectSpace()
-		
-		--local pitch = math.atan2(game.Players.LocalPlayer:GetMouse().Hit.lookVector.y, game.Players.LocalPlayer:GetMouse().Hit.lookVector.z)
-		--local yaw = math.atan2(game.Players.LocalPlayer:GetMouse().Hit.LookVector.x, game.Players.LocalPlayer:GetMouse().Hit.lookVector.z)
-
-		-- Set the orientation of the part using CFrame.Angles
-		--body.CFrame = CFrame.Angles(0, yaw, pitch)
-		
-		leftArm["ManualWeld"].Part1 = body
-		rightArm["ManualWeld"].Part1 = body
+		-- change arms positions
 	end
 end)
