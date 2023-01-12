@@ -5,4 +5,4 @@ I'll also make the setup less difficult since right now it takes a while
 
 ## NOTICE
 
-I am currently re-writing this framework. The fist prototype came to a huge unsolvable problem so now I am taking a different route in creating this framework. Now that I have learned more about creating such a framework I am also able to make it a lot better.
+I am currently re-writing this framework. The fist prototype came to a huge unsolvable problem so now I am taking a different approach in creating this framework. Now that I have learned more about creating such a framework I am also able to make it a lot better.
