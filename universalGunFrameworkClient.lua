@@ -41,6 +41,7 @@ UIS.InputBegan:Connect(function(input, _process)
 	-- TODO: add gun effects when click
 	if input.UserInputType == Enum.UserInputType.MouseButton1 and isHolding1 == false then
 		if #playerFolder:GetChildren() > 0 then -- check if gun equipped
+			isHolding1 = true
 			while isHolding1 do -- check for mouse button1 hold
 				task.wait()
 				local visualRay = Instance.new("Part", workspace) -- NOTICE: This is ray visualising. remove this when done.
@@ -78,6 +79,26 @@ UIS.InputBegan:Connect(function(input, _process)
 				table.insert(shoots, rayResult) -- add shots fired to the list
 			end
 		end
+	elseif input.UserInputType == Enum.UserInputType.MouseButton2 and isHolding2 == false then
+		-- TODO: Add aim down sight (ads)
+		if #playerFolder:GetChildren() > 0 then -- check if gun equipped
+			isHolding2 = true
+			while isHolding2 do
+				task.wait()
+			end
+
+			if isHolding2 == false then
+				-- remove ADS
+			end
+		end
+	end
+end)
+
+UIS.InputEnded:Connect(function(input, gameProcessedEvent)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 and isHolding1 == true then
+		isHolding1 = false
+	elseif input.UserInputType == Enum.UserInputType.MouseButton2 and isHolding2 == true then
+		isHolding2 = false
 	end
 end)
 

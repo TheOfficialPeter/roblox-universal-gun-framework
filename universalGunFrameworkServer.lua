@@ -67,7 +67,7 @@ function giveGun(player, gunName, handleName, gunFolderName)
 	if gun == nil then print("Gun Framework - Could not find gun with the name: "..gunName) end
 	if gunFolder == nil then 
 		print("Gun Framework - Could not find gun folder with the name: "..gunFolderName..". Creating new gun folder...") 
-		gunFolder = Instance.new("Folder", workspace)
+		gunFolder = Instance.new("Folder", workspace) -- Don't change the parent location here. This is the backup folder.
 		gunFolder.Name = gunFolderName
 	end
 
