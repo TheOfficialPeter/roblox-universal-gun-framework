@@ -31,14 +31,17 @@ if reloadRemote == nil then
 end
 
 -- Use shots fired list and check for suspicious activity. Might change this check to something else in future
-function checkShoot()
+function checkShoot(player, shoots)
 
 end
 
 -- check ammo and give/revoke permission to reload
-function checkReload()
+function checkReload(player, shots)
 
 end
+
+reloadRemote.OnServerEvent(checkReload) -- listen to remote event
+checkShootRemote.OnServerEvent(checkShoot) -- listen to remote event
 
 function giveGun(player, gunName, handleName, gunFolderName)
 
