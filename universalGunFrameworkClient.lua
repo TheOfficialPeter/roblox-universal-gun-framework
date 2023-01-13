@@ -1,4 +1,6 @@
 local char = game.Players.LocalPlayer.Character
+local root = char:WaitForChild("HumanoidRootPart")
+local mouse = game.Players.LocalPlayer:GetMouse()
 local isHolding1 = false -- holding mouse button1
 local isHolding2 = false -- holding mouse button2
 local gunFolderName = "Guns" -- change this to the gunFolder's name
@@ -106,5 +108,11 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	if #playerFolder:GetChildren() > 0 then
 		-- change arm positions
 		-- TODO: change arm position with camera
+		local hit = (root.Position.Y - mouse.Hit.Position.Y)/100
+		local mag = (root.Position - mouse.Hit.Position).Magnitude/100
+		local offset = hit/mag
+
+		rightS.C0 = rightS.C0:Lerp(CFrame.new(1, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, -0, -0) * CFrame.fromEulerAnglesXYZ(0, 0, -offset),0.3)
+		leftS.C0 = leftS.C0:Lerp(CFrame.new(-1, 0.5, 0, -0, -0, -1, 0, 1, 0, 1, 0, 0) * CFrame.fromEulerAnglesXYZ(0, 0, offset),0.3)
 	end
 end)
