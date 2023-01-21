@@ -40,8 +40,8 @@ function checkReload(player, shots)
 
 end
 
-reloadRemote.OnServerEvent(checkReload) -- listen to remote event
-checkShootRemote.OnServerEvent(checkShoot) -- listen to remote event
+--reloadRemote.OnServerEvent(checkReload) -- listen to remote event
+--checkShootRemote.OnServerEvent(checkShoot) -- listen to remote event
 
 function giveGun(player, gunName, handleName, gunFolderName)
 
@@ -49,11 +49,19 @@ function giveGun(player, gunName, handleName, gunFolderName)
 	local gunFolder = nil
 	local playerFolder = nil
 	local gun = nil
+	local gripHandle = nil
 
 	-- search for gun
 	for i,v in pairs(workspace:GetDescendants()) do
 		if v.Name == gunName then
 			gun = v
+		end
+	end
+
+	-- search for grip
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name == handleName then
+			gripHandle = v
 		end
 	end
 
@@ -65,6 +73,7 @@ function giveGun(player, gunName, handleName, gunFolderName)
 	end
 
 	if gun == nil then print("Gun Framework - Could not find gun with the name: "..gunName) end
+	if gripHandle == nil then print("Gun Framework - Could not find gun Handle with name: "..handleName) end
 	if gunFolder == nil then 
 		print("Gun Framework - Could not find gun folder with the name: "..gunFolderName..". Creating new gun folder...") 
 		gunFolder = Instance.new("Folder", workspace) -- Don't change the parent location here. This is the backup folder.
@@ -78,7 +87,11 @@ function giveGun(player, gunName, handleName, gunFolderName)
 	local clonedGun = gun:Clone()
 	clonedGun.Parent = playerFolder -- store gun in player's folder
 
-	-- TODO: Attach gun to player's hand
+	-- attach gun to player's hand
+	local handleWeld = Instance.new("Weld", gripHandle)
+	handleWeld.Name = "ManualWeld"
+	handleWeld.Part0 = gripHandle
+	handleWeld.Part1 = game.Players[player].Character["RightHand"]
 end
 
 task.wait(5)

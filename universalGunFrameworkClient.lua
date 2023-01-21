@@ -1,3 +1,5 @@
+task.wait(10)
+
 local char = game.Players.LocalPlayer.Character
 local root = char:WaitForChild("HumanoidRootPart")
 local mouse = game.Players.LocalPlayer:GetMouse()
@@ -103,6 +105,25 @@ UIS.InputEnded:Connect(function(input, gameProcessedEvent)
 		isHolding2 = false
 	end
 end)
+
+function getArms()
+	local rightS = nil
+	local leftS = nil
+
+	for i,v in pairs(char:GetDescendants()) do
+		if v.Name == "RightShoulder" then
+			rightS = v
+		elseif v.Name == "LeftShoulder" then
+			leftS = v
+		end
+	end
+
+	if rightS ~= nil and leftS ~= nil then
+		return rightS, leftS
+	end
+end
+
+local rightS, leftS = getArms()
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	if #playerFolder:GetChildren() > 0 then
