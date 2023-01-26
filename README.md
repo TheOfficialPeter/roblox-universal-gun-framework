@@ -5,4 +5,4 @@ I'll also make the setup less difficult since right now it takes a while
 
 ## NOTICE
 
-I am currently re-writing this framework. Going to make it better than before. Not using custom arms anymore.
+I am currently re-writing this framework. Going to make it better than before.
