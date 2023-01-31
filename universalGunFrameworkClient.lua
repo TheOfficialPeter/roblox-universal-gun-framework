@@ -9,6 +9,7 @@ local gunFolderName = "Guns" -- change this to the gunFolder's name
 local gunFolder = nil
 local playerFolder = nil
 local shoots = {} -- all the times you started shooting
+local gunHandleName = "Handle"
 
 -- Load folders
 for i,v in pairs(workspace:GetDescendants()) do
@@ -50,13 +51,13 @@ UIS.InputBegan:Connect(function(input, _process)
 				task.wait()
 				local visualRay = Instance.new("Part", workspace) -- NOTICE: This is ray visualising. remove this when done.
 				visualRay.Name = "visualRay"
-				local distance = (playerFolder["Gun"]["gripHandle"].CFrame.Position - game.Players.LocalPlayer:GetMouse().Hit.Position).Magnitude
+				local distance = (playerFolder["Gun"].gunHandleName.CFrame.Position - game.Players.LocalPlayer:GetMouse().Hit.Position).Magnitude
 				visualRay.Size = Vector3.new(.1,.1,distance)
 				visualRay.Material = Enum.Material.Neon
 				visualRay.CanCollide = false
 				visualRay.Color = Color3.fromRGB(255, 255, 255)
 				visualRay.Anchored = true
-				visualRay.CFrame = CFrame.new(playerFolder["Gun"]["gripHandle"].CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position)
+				visualRay.CFrame = CFrame.new(playerFolder["Gun"].gunHandleName.CFrame.Position, game.Players.LocalPlayer:GetMouse().Hit.Position)
 				visualRay.CFrame = visualRay.CFrame + visualRay.CFrame.LookVector * distance/2
 
 				task.spawn(function()
@@ -69,8 +70,8 @@ UIS.InputBegan:Connect(function(input, _process)
 				raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
 				raycastParams.IgnoreWater = true
 
-				local direction = (game.Players.LocalPlayer:GetMouse().Hit.Position - playerFolder["Gun"]["gripHandle"].CFrame.Position).Unit
-				local rayResult = workspace:Raycast(playerFolder["Gun"]["gripHandle"].CFrame.Position, direction, raycastParams)
+				local direction = (game.Players.LocalPlayer:GetMouse().Hit.Position - playerFolder["Gun"].gunHandleName.CFrame.Position).Unit
+				local rayResult = workspace:Raycast(playerFolder["Gun"].gunHandleName.CFrame.Position, direction, raycastParams)
 				local hit = rayResult.Instance
 
 				-- you can also change this to a custom players folder if you are using custom characters. This is client-sided raycast validation
@@ -127,13 +128,20 @@ local rightS, leftS = getArms()
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	if #playerFolder:GetChildren() > 0 then
-		-- change arm positions
-		-- TODO: change arm position with camera
-		local hit = (root.Position.Y - mouse.Hit.Position.Y)/100
-		local mag = (root.Position - mouse.Hit.Position).Magnitude/100
-		local offset = hit/mag
+		-- get angle between mouse hit and body direction vector
+		local vectorA = playerFolder["Gun"]["gripHandle"].CFrame.LookVector
+		local vectorB = (root.CFrame.LookVector - mouse.Hit.Position)
 
-		rightS.C0 = rightS.C0:Lerp(CFrame.new(1, 0.5, 0, 0, 0, 1, 0, 1, 0, -1, -0, -0) * CFrame.fromEulerAnglesXYZ(0, 0, -offset),0.3)
-		leftS.C0 = leftS.C0:Lerp(CFrame.new(-1, 0.5, 0, -0, -0, -1, 0, 1, 0, 1, 0, 0) * CFrame.fromEulerAnglesXYZ(0, 0, offset),0.3)
+		-- fallback when magnitude is too low
+		if vectorB.Magnitude < 0.001 then
+			vectorB = (Vector3.new(0,0,-1))
+		else
+			vectorB = vectorB.Unit
+		end
+
+		local angle = math.acos(vectorA:Dot(vectorB) / (vectorA.Magnitude * vectorB.Magnitude))
+		print(math.deg(angle))
+
+		-- add angle to character's shoulders
 	end
 end)
