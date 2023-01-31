@@ -3,6 +3,6 @@ This readme contains instructions for use and how to manipulate the framework to
 I'll post the instructions when the library is finished.<br/>
 I'll also make the setup less difficult since right now it takes a while
 
-## NOTICE
+## Please note
 
-I am currently re-writing this framework. Going to make it better than before.
+This framework is currently in the re-writing phase.
