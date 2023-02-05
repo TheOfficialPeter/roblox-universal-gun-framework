@@ -5,4 +5,4 @@ I'll also make the setup less difficult since right now it takes a while
 
 ## Please note
 
-This framework is currently in the re-writing phase.
+This project has been abandoned.
